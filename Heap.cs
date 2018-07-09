@@ -107,7 +107,9 @@ public abstract class Heap<T> where T : IComparable<T>
 
         if (_compareFunc(_A[i], key))
         {
-            throw new Exception("New key invalid");
+            _A[i] = key;
+            Heapify(i);
+            return;
         }
         _A[i] = key;
         int p = Parent(i);
