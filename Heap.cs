@@ -65,11 +65,11 @@ public abstract class Heap<T> where T : IComparable<T>
         return top;
     }
 
-    public virtual void Insert(T key)
+    public virtual void Insert(T val)
     {
 
-        _A.Add(key);
-        ModifyKey(_A.Count - 1, key);
+        _A.Add(val);
+        ModifyValue(_A.Count - 1, val);
     }
 
     public virtual void Build(List<T> a)
@@ -102,16 +102,15 @@ public abstract class Heap<T> where T : IComparable<T>
         }
     }
 
-    public virtual void ModifyKey(int i, T key)
+    public virtual void ModifyValue(int i, T val)
     {
-
-        if (_compareFunc(_A[i], key))
+        if (_compareFunc(_A[i], val))
         {
-            _A[i] = key;
+            _A[i] = val;
             Heapify(i);
             return;
         }
-        _A[i] = key;
+        _A[i] = val;
         int p = Parent(i);
         while (i > 0 && _compareFunc(_A[i], _A[p]))
         {
