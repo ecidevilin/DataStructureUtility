@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public abstract class Heap<T> where T : IComparable<T>
+public class Heap<T> where T : IComparable<T>
 {
     protected List<T> _A;
 
@@ -113,5 +113,30 @@ public abstract class Heap<T> where T : IComparable<T>
             i = p;
             p = Parent(i);
         }
+    }
+
+    private static bool larger(T a, T b)
+    {
+        return a.CompareTo(b) > 0;
+    }
+    private static bool smaller(T a, T b)
+    {
+        return a.CompareTo(b) < 0;
+    }
+    public static Heap<T> CreateMaxHeap()
+    {
+        return new Heap<T>(larger);
+    }
+    public static Heap<T> CreateMaxHeap(List<T> a)
+    {
+        return new Heap<T>(larger, a);
+    }
+    public static Heap<T> CreateMinHeap()
+    {
+        return new Heap<T>(smaller);
+    }
+    public static Heap<T> CreateMinHeap(List<T> a)
+    {
+        return new Heap<T>(smaller, a);
     }
 }
