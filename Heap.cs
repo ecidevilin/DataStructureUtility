@@ -9,71 +9,15 @@ public abstract class Heap<T> where T : IComparable<T>
 
     protected Compare<T> _compareFunc;
 
-    public Heap(Compare<T> _func)
+    protected Heap(Compare<T> _func)
     {
         _compareFunc = _func;
         _A = new List<T>();
     }
 
-    public Heap(Compare<T> _func, List<T> a)
+    protected Heap(Compare<T> _func, List<T> a)
     {
         _compareFunc = _func;
-        Build(a);
-    }
-    public static int Parent(int idx)
-    {
-        return (idx - 1) / 2;
-    }
-
-    public static int Left(int idx)
-    {
-        return 2 * idx + 1;
-    }
-
-    public static int Right(int idx)
-    {
-        return 2 * idx + 2;
-    }
-    public void Swap(int i, int j)
-    {
-        T t = _A[i];
-        _A[i] = _A[j];
-        _A[j] = t;
-    }
-
-    public int Size()
-    {
-        return _A.Count;
-    }
-
-    public T Top()
-    {
-        return _A[0];
-    }
-
-    public virtual T ExtractTop()
-    {
-        if (_A.Count == 0)
-        {
-            throw new Exception("Heap underflow");
-        }
-        T top = _A[0];
-        int last = _A.Count - 1;
-        _A[0] = _A[last];
-        _A.RemoveAt(last);
-        Heapify(0);
-        return top;
-    }
-
-    public virtual void Insert(T val)
-    {
-
-        _A.Add(val);
-        ModifyValue(_A.Count - 1, val);
-    }
-
-    public virtual void Build(List<T> a)
-    {
         _A = a;
         for (int i = a.Count / 2; i >= 0; i--)
         {
@@ -81,7 +25,7 @@ public abstract class Heap<T> where T : IComparable<T>
         }
     }
 
-    public virtual void Heapify(int i)
+    protected virtual void Heapify(int i)
     {
         int l = Left(i);
         int r = Right(i);
@@ -100,6 +44,57 @@ public abstract class Heap<T> where T : IComparable<T>
             Swap(i, m);
             Heapify(m);
         }
+    }
+
+    protected static int Parent(int idx)
+    {
+        return (idx - 1) / 2;
+    }
+
+    protected static int Left(int idx)
+    {
+        return 2 * idx + 1;
+    }
+
+    protected static int Right(int idx)
+    {
+        return 2 * idx + 2;
+    }
+    protected void Swap(int i, int j)
+    {
+        T t = _A[i];
+        _A[i] = _A[j];
+        _A[j] = t;
+    }
+
+    public int Size()
+    {
+        return _A.Count;
+    }
+
+    public T Top()
+    {
+        return _A[0];
+    }
+
+    public T ExtractTop()
+    {
+        if (_A.Count == 0)
+        {
+            throw new Exception("Heap underflow");
+        }
+        T top = _A[0];
+        int last = _A.Count - 1;
+        _A[0] = _A[last];
+        _A.RemoveAt(last);
+        Heapify(0);
+        return top;
+    }
+
+    public void Insert(T val)
+    {
+        _A.Add(val);
+        ModifyValue(_A.Count - 1, val);
     }
 
     public virtual void ModifyValue(int i, T val)
