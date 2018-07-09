@@ -12,7 +12,7 @@ public class MaxHeap<T> where T : IComparable<T>
 
     public MaxHeap(List<T> a)
     {
-        _A = a;
+        BuildMaxHeap(a);
     } 
     public static int Parent(int idx)
     {
