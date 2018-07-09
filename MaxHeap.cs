@@ -4,7 +4,16 @@ using System.Collections.Generic;
 
 public class MaxHeap<T> where T : IComparable<T>
 {
-    private List<T> _A = new List<T>();
+    private List<T> _A;
+    public MaxHeap()
+    {
+        _A = new List<T>();
+    }
+
+    public MaxHeap(List<T> a)
+    {
+        _A = a;
+    } 
     public static int Parent(int idx)
     {
         return (idx - 1) / 2;
@@ -48,9 +57,9 @@ public class MaxHeap<T> where T : IComparable<T>
         _A[j] = t;
     }
 
-    public void BuildMaxHeap(ICollection<T> a)
+    public void BuildMaxHeap(List<T> a)
     {
-        _A = new List<T>(a);
+        _A = a;
         for (int i = a.Count / 2; i >= 0; i--)
         {
             MaxHeapify(i);
