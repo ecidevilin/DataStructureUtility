@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Heap<T> where T : IComparable<T>
+public interface IHeapNode
+{
+    int HeapIndex { get; set; }
+}
+
+public class Heap<T> where T : IComparable<T>, IHeapNode
 {
     protected List<T> _A;
 
@@ -65,6 +70,8 @@ public class Heap<T> where T : IComparable<T>
         T t = _A[i];
         _A[i] = _A[j];
         _A[j] = t;
+        _A[i].HeapIndex = i;
+        _A[j].HeapIndex = j;
     }
 
     public int Size()
@@ -86,6 +93,7 @@ public class Heap<T> where T : IComparable<T>
         T top = _A[0];
         int last = _A.Count - 1;
         _A[0] = _A[last];
+        _A[0].HeapIndex = 0;
         _A.RemoveAt(last);
         Heapify(0);
         return top;
@@ -94,7 +102,9 @@ public class Heap<T> where T : IComparable<T>
     public void Insert(T val)
     {
         _A.Add(val);
-        ModifyValue(_A.Count - 1, val);
+        int idx = _A.Count - 1;
+        val.HeapIndex = idx;
+        ModifyValue(idx, val);
     }
 
     public virtual void ModifyValue(int i, T val)
@@ -102,10 +112,12 @@ public class Heap<T> where T : IComparable<T>
         if (_compareFunc(_A[i], val))
         {
             _A[i] = val;
+            val.HeapIndex = i;
             Heapify(i);
             return;
         }
         _A[i] = val;
+        val.HeapIndex = i;
         int p = Parent(i);
         while (i > 0 && _compareFunc(_A[i], _A[p]))
         {
